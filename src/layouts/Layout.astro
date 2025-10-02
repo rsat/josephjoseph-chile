@@ -1,0 +1,92 @@
+---
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description = "Joseph Joseph Chile - Diseño inteligente para tu cocina" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content={description} />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+		<title>{title}</title>
+	</head>
+	<body>
+		<slot />
+		<script>
+			import '../scripts/animations';
+		</script>
+	</body>
+</html>
+
+<style is:global>
+	:root {
+		--color-stone: #F5F5F0;
+		--color-gray: #E8E8E8;
+		--color-dark: #2C2C2C;
+		--color-text: #333333;
+		--color-text-light: #666666;
+		--max-width: 1200px;
+	}
+
+	* {
+		box-sizing: border-box;
+		margin: 0;
+		padding: 0;
+	}
+
+	html {
+		font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+		scroll-behavior: smooth;
+	}
+
+	body {
+		color: var(--color-text);
+		line-height: 1.6;
+	}
+
+	.container {
+		max-width: var(--max-width);
+		margin: 0 auto;
+		padding: 0 1.5rem;
+	}
+
+	h1, h2, h3, h4 {
+		font-weight: 500;
+		line-height: 1.2;
+	}
+
+	a {
+		text-decoration: none;
+		color: inherit;
+	}
+
+	/* Scroll Animations */
+	.animate-on-scroll {
+		opacity: 0;
+		transform: translateY(30px);
+		transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+	}
+
+	.animate-on-scroll.animate-in {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	/* Stagger animation for grids */
+	.animate-on-scroll:nth-child(1) { transition-delay: 0.1s; }
+	.animate-on-scroll:nth-child(2) { transition-delay: 0.2s; }
+	.animate-on-scroll:nth-child(3) { transition-delay: 0.3s; }
+	.animate-on-scroll:nth-child(4) { transition-delay: 0.4s; }
+	.animate-on-scroll:nth-child(5) { transition-delay: 0.5s; }
+	.animate-on-scroll:nth-child(6) { transition-delay: 0.6s; }
+</style>

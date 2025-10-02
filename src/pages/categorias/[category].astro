@@ -1,0 +1,102 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import StickyNav from '../../components/StickyNav.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Footer from '../../components/Footer.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import { products } from '../../data/products';
+
+export function getStaticPaths() {
+	const categories = [...new Set(products.map(p => p.category))];
+
+	return categories.map(category => ({
+		params: { category: category.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '-') },
+		props: { category },
+	}));
+}
+
+const { category } = Astro.props;
+const filteredProducts = products.filter(p => p.category === category);
+---
+
+<Layout title={`${category} - Joseph Joseph Chile`}>
+	<StickyNav />
+
+	<div class="container">
+		<Breadcrumbs items={[{ label: category }]} />
+	</div>
+
+	<section class="category-hero">
+		<div class="container">
+			<h1>{category}</h1>
+			<p>Descubre nuestra colección de productos de {category.toLowerCase()}</p>
+		</div>
+	</section>
+
+	<section class="category-products">
+		<div class="container">
+			<div class="products-count">
+				<p>{filteredProducts.length} {filteredProducts.length === 1 ? 'producto' : 'productos'}</p>
+			</div>
+			<div class="product-grid">
+				{filteredProducts.map((product) => (
+					<ProductCard product={product} />
+				))}
+			</div>
+		</div>
+	</section>
+
+	<Footer />
+</Layout>
+
+<style>
+	.category-hero {
+		background: var(--color-stone);
+		padding: 4rem 0 3rem;
+		text-align: center;
+	}
+
+	h1 {
+		font-size: 2.5rem;
+		font-weight: 500;
+		color: var(--color-dark);
+		margin-bottom: 1rem;
+	}
+
+	.category-hero p {
+		font-size: 1.125rem;
+		color: var(--color-text-light);
+	}
+
+	.category-products {
+		padding: 4rem 0;
+	}
+
+	.products-count {
+		margin-bottom: 2rem;
+	}
+
+	.products-count p {
+		font-size: 0.9375rem;
+		color: var(--color-text-light);
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+	}
+
+	.product-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+		gap: 3rem;
+	}
+
+	@media (max-width: 768px) {
+		h1 {
+			font-size: 2rem;
+		}
+
+		.product-grid {
+			grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+			gap: 2rem;
+		}
+	}
+</style>

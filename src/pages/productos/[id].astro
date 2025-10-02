@@ -1,0 +1,309 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import StickyNav from '../../components/StickyNav.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Footer from '../../components/Footer.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import { products } from '../../data/products';
+
+export function getStaticPaths() {
+	return products.map(product => ({
+		params: { id: product.id },
+		props: { product },
+	}));
+}
+
+const { product } = Astro.props;
+const relatedProducts = products
+	.filter(p => p.category === product.category && p.id !== product.id)
+	.slice(0, 3);
+
+const categorySlug = product.category.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '-');
+---
+
+<Layout title={`${product.name} - Joseph Joseph Chile`}>
+	<StickyNav />
+
+	<main class="product-detail">
+		<div class="container">
+			<Breadcrumbs
+				items={[
+					{ label: product.category, href: `/categorias/${categorySlug}` },
+					{ label: product.name }
+				]}
+			/>
+			<div class="product-hero">
+				<!-- Imagen del Producto -->
+				<div class="product-image-container">
+					{product.image ? (
+						<img src={product.image} alt={product.name} class="product-main-image" />
+					) : (
+						<div class="placeholder-image" style={`background: ${product.gradient}`}>
+							<span>{product.name}</span>
+						</div>
+					)}
+					{product.isNew && (
+						<span class="badge-new">Nuevo</span>
+					)}
+				</div>
+
+				<!-- Información del Producto -->
+				<div class="product-info">
+					<h1>{product.name}</h1>
+					<p class="category-tag">{product.category}</p>
+					<p class="product-description">{product.description}</p>
+
+					{product.features && (
+						<div class="features-section">
+							<h2>Características Principales</h2>
+							<ul class="features-list">
+								{product.features.map((feature) => (
+									<li>
+										<svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+											<path d="M16.667 5L7.5 14.167 3.333 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+										</svg>
+										{feature}
+									</li>
+								))}
+							</ul>
+						</div>
+					)}
+
+					<div class="cta-section">
+						<h3>Dónde Comprar</h3>
+						<p class="cta-text">Encuentra este producto en las siguientes tiendas:</p>
+						<div class="retailer-buttons">
+							<a href="#" class="retailer-btn">Paris</a>
+							<a href="#" class="retailer-btn">Falabella</a>
+							<a href="#" class="retailer-btn">Ripley</a>
+							<a href="#" class="retailer-btn">Easy</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Productos Relacionados -->
+			{relatedProducts.length > 0 && (
+				<section class="related-products">
+					<h2>Productos Relacionados</h2>
+					<div class="related-grid">
+						{relatedProducts.map((related) => (
+							<ProductCard product={related} />
+						))}
+					</div>
+				</section>
+			)}
+		</div>
+	</main>
+
+	<Footer />
+</Layout>
+
+<style>
+	.product-detail {
+		padding: 3rem 0;
+	}
+
+	.product-hero {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 4rem;
+		margin-bottom: 5rem;
+	}
+
+	.product-image-container {
+		position: relative;
+	}
+
+	.product-main-image {
+		width: 100%;
+		height: auto;
+		border-radius: 12px;
+		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+	}
+
+	.placeholder-image {
+		width: 100%;
+		aspect-ratio: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 2rem;
+		font-weight: 500;
+		color: var(--color-text-light);
+		border-radius: 12px;
+	}
+
+	.badge-new {
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+		background: var(--color-dark);
+		color: white;
+		padding: 0.5rem 1rem;
+		border-radius: 4px;
+		font-size: 0.875rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+	}
+
+	.product-info {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+	}
+
+	h1 {
+		font-size: 2.5rem;
+		font-weight: 500;
+		color: var(--color-dark);
+		margin: 0;
+	}
+
+	.category-tag {
+		display: inline-block;
+		color: var(--color-text-light);
+		font-size: 0.9375rem;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+	}
+
+	.product-description {
+		font-size: 1.125rem;
+		line-height: 1.7;
+		color: var(--color-text);
+	}
+
+	.features-section {
+		padding: 2rem 0;
+		border-top: 1px solid var(--color-gray);
+		border-bottom: 1px solid var(--color-gray);
+	}
+
+	.features-section h2 {
+		font-size: 1.25rem;
+		font-weight: 500;
+		margin-bottom: 1rem;
+		color: var(--color-dark);
+	}
+
+	.features-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.875rem;
+	}
+
+	.features-list li {
+		display: flex;
+		align-items: flex-start;
+		gap: 0.75rem;
+		font-size: 1rem;
+		line-height: 1.6;
+		color: var(--color-text);
+	}
+
+	.features-list svg {
+		flex-shrink: 0;
+		margin-top: 0.125rem;
+		color: var(--color-dark);
+	}
+
+	.cta-section {
+		margin-top: 1rem;
+	}
+
+	.cta-section h3 {
+		font-size: 1.25rem;
+		font-weight: 500;
+		margin-bottom: 0.5rem;
+		color: var(--color-dark);
+	}
+
+	.cta-text {
+		color: var(--color-text-light);
+		margin-bottom: 1rem;
+	}
+
+	.retailer-buttons {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+	}
+
+	.retailer-btn {
+		padding: 0.875rem 1.75rem;
+		background: var(--color-dark);
+		color: white;
+		border-radius: 6px;
+		font-weight: 500;
+		font-size: 0.9375rem;
+		transition: all 0.3s ease;
+		text-decoration: none;
+	}
+
+	.retailer-btn:hover {
+		background: var(--color-text);
+		transform: translateY(-2px);
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	}
+
+	.related-products {
+		padding-top: 3rem;
+		border-top: 1px solid var(--color-gray);
+	}
+
+	.related-products h2 {
+		font-size: 1.75rem;
+		font-weight: 500;
+		margin-bottom: 2rem;
+		color: var(--color-dark);
+	}
+
+	.related-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+		gap: 2rem;
+	}
+
+	@media (max-width: 968px) {
+		.product-hero {
+			grid-template-columns: 1fr;
+			gap: 2rem;
+		}
+
+		h1 {
+			font-size: 2rem;
+		}
+
+		.retailer-buttons {
+			flex-direction: column;
+		}
+
+		.retailer-btn {
+			width: 100%;
+			text-align: center;
+		}
+
+		.related-grid {
+			grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+		}
+	}
+
+	@media (max-width: 480px) {
+		.product-detail {
+			padding: 1.5rem 0;
+		}
+
+		h1 {
+			font-size: 1.75rem;
+		}
+
+		.related-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

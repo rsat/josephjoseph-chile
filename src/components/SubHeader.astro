@@ -1,0 +1,188 @@
+---
+import { products } from '../data/products';
+
+const categories = [...new Set(products.map(p => p.category))].map(cat => ({
+	name: cat,
+	slug: cat.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '-'),
+}));
+
+const currentPath = Astro.url.pathname;
+---
+
+<nav class="subheader">
+	<div class="container">
+		<ul class="category-nav">
+			<li>
+				<a
+					href="/nuevos"
+					class:list={['category-link', { active: currentPath === '/nuevos' }]}
+				>
+					Nuevos Productos
+				</a>
+			</li>
+			{categories.map((cat) => (
+				<li>
+					<a
+						href={`/categorias/${cat.slug}`}
+						class:list={['category-link', { active: currentPath === `/categorias/${cat.slug}` }]}
+					>
+						{cat.name}
+					</a>
+				</li>
+			))}
+		</ul>
+		<div class="scroll-indicator"></div>
+	</div>
+</nav>
+
+<script>
+	const nav = document.querySelector('.category-nav');
+	const indicator = document.querySelector('.scroll-indicator');
+
+	function updateScrollIndicator() {
+		if (!nav || !indicator) return;
+
+		const isScrollable = nav.scrollWidth > nav.clientWidth;
+		const isAtEnd = nav.scrollLeft + nav.clientWidth >= nav.scrollWidth - 10;
+
+		if (isScrollable && !isAtEnd) {
+			indicator.classList.add('visible');
+		} else {
+			indicator.classList.remove('visible');
+		}
+	}
+
+	if (nav) {
+		nav.addEventListener('scroll', updateScrollIndicator);
+		window.addEventListener('resize', updateScrollIndicator);
+		updateScrollIndicator();
+	}
+</script>
+
+<style>
+	.subheader {
+		background: var(--color-stone);
+		border-bottom: 1px solid var(--color-gray);
+	}
+
+	.container {
+		padding: 0 1.5rem;
+		position: relative;
+	}
+
+	.scroll-indicator {
+		display: none;
+		position: absolute;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		width: 60px;
+		background: linear-gradient(to left, var(--color-stone), transparent);
+		pointer-events: none;
+		opacity: 0;
+		transition: opacity 0.3s ease;
+	}
+
+	.scroll-indicator.visible {
+		opacity: 1;
+	}
+
+	.scroll-indicator::after {
+		content: '→';
+		position: absolute;
+		right: 1rem;
+		top: 50%;
+		transform: translateY(-50%);
+		color: var(--color-text-light);
+		font-size: 1.25rem;
+		animation: pulseArrow 2s ease-in-out infinite;
+	}
+
+	@keyframes pulseArrow {
+		0%, 100% {
+			opacity: 0.4;
+			transform: translateY(-50%) translateX(0);
+		}
+		50% {
+			opacity: 1;
+			transform: translateY(-50%) translateX(4px);
+		}
+	}
+
+	.category-nav {
+		display: flex;
+		gap: 0;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+		scrollbar-width: none;
+	}
+
+	.category-nav::-webkit-scrollbar {
+		display: none;
+	}
+
+	.category-nav li {
+		flex-shrink: 0;
+	}
+
+	.category-link {
+		display: block;
+		padding: 1rem 1.25rem;
+		font-size: 0.9375rem;
+		font-weight: 400;
+		color: var(--color-text);
+		white-space: nowrap;
+		transition: all 0.3s ease;
+		position: relative;
+	}
+
+	.category-link:hover {
+		color: var(--color-dark);
+		background: rgba(255, 255, 255, 0.5);
+	}
+
+	.category-link.active {
+		color: var(--color-dark);
+		font-weight: 500;
+	}
+
+	.category-link.active::after {
+		content: '';
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		height: 2px;
+		background: var(--color-dark);
+	}
+
+	@media (max-width: 768px) {
+		.scroll-indicator {
+			display: block;
+		}
+
+		.category-link {
+			padding: 0.75rem 0.875rem;
+			font-size: 0.8125rem;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.category-link {
+			padding: 0.625rem 0.75rem;
+			font-size: 0.75rem;
+		}
+
+		.scroll-indicator {
+			width: 50px;
+		}
+
+		.scroll-indicator::after {
+			font-size: 1rem;
+			right: 0.75rem;
+		}
+	}
+</style>

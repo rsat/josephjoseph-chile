@@ -1,0 +1,74 @@
+---
+---
+
+<div class="search-wrapper">
+	<div class="search-container">
+		<input
+			type="text"
+			id="product-search"
+			placeholder="Buscar productos..."
+			aria-label="Buscar productos"
+		/>
+		<svg class="search-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+			<path d="M9 17A8 8 0 1 0 9 1a8 8 0 0 0 0 16zM18 18l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+		</svg>
+	</div>
+</div>
+
+<script>
+	const searchInput = document.getElementById('product-search') as HTMLInputElement;
+	const productCards = document.querySelectorAll('.product-card');
+
+	searchInput?.addEventListener('input', (e) => {
+		const searchTerm = (e.target as HTMLInputElement).value.toLowerCase();
+
+		productCards.forEach((card) => {
+			const productName = card.querySelector('h3')?.textContent?.toLowerCase() || '';
+			const productDesc = card.querySelector('p')?.textContent?.toLowerCase() || '';
+
+			if (productName.includes(searchTerm) || productDesc.includes(searchTerm)) {
+				(card as HTMLElement).style.display = 'flex';
+			} else {
+				(card as HTMLElement).style.display = 'none';
+			}
+		});
+	});
+</script>
+
+<style>
+	.search-wrapper {
+		margin-bottom: 2rem;
+		display: flex;
+		justify-content: center;
+	}
+
+	.search-container {
+		position: relative;
+		max-width: 500px;
+		width: 100%;
+	}
+
+	input {
+		width: 100%;
+		padding: 1rem 1rem 1rem 3rem;
+		border: 2px solid var(--color-gray);
+		border-radius: 8px;
+		font-size: 1rem;
+		font-family: inherit;
+		transition: border-color 0.3s ease;
+	}
+
+	input:focus {
+		outline: none;
+		border-color: var(--color-dark);
+	}
+
+	.search-icon {
+		position: absolute;
+		left: 1rem;
+		top: 50%;
+		transform: translateY(-50%);
+		color: var(--color-text-light);
+		pointer-events: none;
+	}
+</style>

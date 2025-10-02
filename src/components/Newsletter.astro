@@ -1,0 +1,136 @@
+---
+---
+
+<section class="newsletter">
+	<div class="container">
+		<div class="newsletter-content">
+			<h2>Mantente Informado</h2>
+			<p>Suscríbete para recibir novedades sobre nuevos productos y ofertas exclusivas</p>
+			<form class="newsletter-form" id="newsletter-form">
+				<input
+					type="email"
+					placeholder="Tu correo electrónico"
+					required
+					aria-label="Email"
+					name="email"
+				/>
+				<button type="submit">Suscribirse</button>
+			</form>
+			<p class="privacy-note">No compartimos tu información. Puedes darte de baja en cualquier momento.</p>
+		</div>
+	</div>
+</section>
+
+<script>
+	const form = document.getElementById('newsletter-form') as HTMLFormElement;
+
+	form?.addEventListener('submit', (e) => {
+		e.preventDefault();
+		const email = (form.querySelector('input[name="email"]') as HTMLInputElement).value;
+
+		// Aquí puedes integrar con tu servicio de email marketing
+		// Por ejemplo: Mailchimp, SendGrid, etc.
+		console.log('Newsletter subscription:', email);
+
+		alert('¡Gracias por suscribirte! Pronto recibirás noticias de Joseph Joseph.');
+		form.reset();
+	});
+</script>
+
+<style>
+	.newsletter {
+		padding: 5rem 0;
+		background: var(--color-dark);
+		color: white;
+	}
+
+	.newsletter-content {
+		max-width: 600px;
+		margin: 0 auto;
+		text-align: center;
+	}
+
+	h2 {
+		font-size: 2rem;
+		font-weight: 500;
+		margin-bottom: 1rem;
+	}
+
+	.newsletter-content > p {
+		font-size: 1.0625rem;
+		color: rgba(255, 255, 255, 0.8);
+		margin-bottom: 2rem;
+		line-height: 1.6;
+	}
+
+	.newsletter-form {
+		display: flex;
+		gap: 0.75rem;
+		margin-bottom: 1rem;
+	}
+
+	input[type="email"] {
+		flex: 1;
+		padding: 1rem 1.25rem;
+		border: 2px solid rgba(255, 255, 255, 0.2);
+		border-radius: 4px;
+		background: rgba(255, 255, 255, 0.1);
+		color: white;
+		font-size: 1rem;
+		font-family: inherit;
+		transition: all 0.3s ease;
+	}
+
+	input[type="email"]::placeholder {
+		color: rgba(255, 255, 255, 0.5);
+	}
+
+	input[type="email"]:focus {
+		outline: none;
+		border-color: white;
+		background: rgba(255, 255, 255, 0.15);
+	}
+
+	button {
+		padding: 1rem 2rem;
+		background: white;
+		color: var(--color-dark);
+		border: none;
+		border-radius: 4px;
+		font-size: 1rem;
+		font-weight: 500;
+		font-family: inherit;
+		cursor: pointer;
+		transition: all 0.3s ease;
+		white-space: nowrap;
+	}
+
+	button:hover {
+		background: var(--color-stone);
+		transform: translateY(-2px);
+	}
+
+	.privacy-note {
+		font-size: 0.8125rem;
+		color: rgba(255, 255, 255, 0.6);
+		margin-top: 1rem;
+	}
+
+	@media (max-width: 768px) {
+		.newsletter {
+			padding: 4rem 0;
+		}
+
+		h2 {
+			font-size: 1.75rem;
+		}
+
+		.newsletter-form {
+			flex-direction: column;
+		}
+
+		button {
+			width: 100%;
+		}
+	}
+</style>

@@ -1,0 +1,18 @@
+---
+import Header from './Header.astro';
+import SubHeader from './SubHeader.astro';
+---
+
+<div class="sticky-nav">
+	<Header />
+	<SubHeader />
+</div>
+
+<style>
+	.sticky-nav {
+		position: sticky;
+		top: 0;
+		z-index: 100;
+		background: white;
+	}
+</style>

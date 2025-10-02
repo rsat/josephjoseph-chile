@@ -1,0 +1,119 @@
+---
+---
+
+<footer class="footer">
+	<div class="container">
+		<div class="footer-content">
+			<div class="footer-brand">
+				<img src="/logo.svg" alt="Joseph Joseph" class="footer-logo" />
+				<p>Diseño inteligente para tu cocina</p>
+			</div>
+			<div class="footer-links">
+				<div class="footer-column">
+					<h4>Explorar</h4>
+					<a href="#productos">Productos</a>
+					<a href="#donde-comprar">Dónde Comprar</a>
+					<a href="#sobre-nosotros">Sobre Nosotros</a>
+				</div>
+				<div class="footer-column">
+					<h4>Síguenos</h4>
+					<a href="https://www.instagram.com/josephjoseph" target="_blank" rel="noopener">Instagram</a>
+					<a href="https://www.facebook.com/josephjoseph" target="_blank" rel="noopener">Facebook</a>
+					<a href="https://josephjoseph.com" target="_blank" rel="noopener">Sitio Global</a>
+				</div>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<p class="distributor">Importado y Distribuido por Grayson Group</p>
+			<p>&copy; 2025 Joseph Joseph Chile. Todos los derechos reservados.</p>
+		</div>
+	</div>
+</footer>
+
+<style>
+	.footer {
+		background: var(--color-dark);
+		color: white;
+		padding: 3rem 0 1.5rem;
+		margin-top: 5rem;
+	}
+
+	.footer-content {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 3rem;
+		margin-bottom: 2rem;
+	}
+
+	.footer-logo {
+		height: 28px;
+		width: auto;
+		margin-bottom: 0.75rem;
+		filter: brightness(0) invert(1);
+	}
+
+	.footer-brand p {
+		color: rgba(255, 255, 255, 0.7);
+	}
+
+	.footer-links {
+		display: flex;
+		gap: 3rem;
+		justify-content: flex-end;
+	}
+
+	.footer-column {
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+	}
+
+	.footer-column h4 {
+		font-size: 0.875rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		margin-bottom: 0.25rem;
+	}
+
+	.footer-column a {
+		color: rgba(255, 255, 255, 0.7);
+		font-size: 0.875rem;
+		transition: color 0.3s ease;
+	}
+
+	.footer-column a:hover {
+		color: white;
+	}
+
+	.footer-bottom {
+		padding-top: 2rem;
+		border-top: 1px solid rgba(255, 255, 255, 0.1);
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.footer-bottom .distributor {
+		color: rgba(255, 255, 255, 0.7);
+		font-size: 0.875rem;
+		font-weight: 500;
+	}
+
+	.footer-bottom p {
+		color: rgba(255, 255, 255, 0.5);
+		font-size: 0.875rem;
+	}
+
+	@media (max-width: 768px) {
+		.footer-content {
+			grid-template-columns: 1fr;
+			gap: 2rem;
+		}
+
+		.footer-links {
+			justify-content: flex-start;
+		}
+	}
+</style>

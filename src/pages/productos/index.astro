@@ -1,0 +1,111 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import StickyNav from '../../components/StickyNav.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Footer from '../../components/Footer.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import ProductSearch from '../../components/ProductSearch.astro';
+import ProductFilters from '../../components/ProductFilters.astro';
+import { products } from '../../data/products';
+---
+
+<Layout title="Todos los Productos - Joseph Joseph Chile">
+	<StickyNav />
+
+	<div class="container">
+		<Breadcrumbs items={[{ label: 'Productos' }]} />
+	</div>
+
+	<main class="products-page">
+		<div class="container">
+			<div class="page-header">
+				<h1>Todos los Productos</h1>
+				<p>Explora nuestra colección completa de productos Joseph Joseph</p>
+			</div>
+
+			<ProductSearch />
+
+			<div class="products-layout">
+				<ProductFilters />
+				<div class="products-content">
+					<div class="products-count">
+						<p>{products.length} {products.length === 1 ? 'producto' : 'productos'}</p>
+					</div>
+					<div class="product-grid">
+						{products.map((product) => (
+							<ProductCard product={product} />
+						))}
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<Footer />
+</Layout>
+
+<style>
+	.products-page {
+		padding: 2rem 0 5rem;
+	}
+
+	.page-header {
+		text-align: center;
+		margin-bottom: 3rem;
+	}
+
+	h1 {
+		font-size: 2.5rem;
+		font-weight: 500;
+		color: var(--color-dark);
+		margin-bottom: 1rem;
+	}
+
+	.page-header p {
+		font-size: 1.125rem;
+		color: var(--color-text-light);
+	}
+
+	.products-layout {
+		display: grid;
+		grid-template-columns: 280px 1fr;
+		gap: 3rem;
+		margin-top: 2rem;
+	}
+
+	.products-content {
+		min-width: 0;
+	}
+
+	.products-count {
+		margin-bottom: 2rem;
+	}
+
+	.products-count p {
+		font-size: 0.9375rem;
+		color: var(--color-text-light);
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+	}
+
+	.product-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+		gap: 3rem;
+	}
+
+	@media (max-width: 968px) {
+		.products-layout {
+			grid-template-columns: 1fr;
+		}
+
+		h1 {
+			font-size: 2rem;
+		}
+
+		.product-grid {
+			grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+			gap: 2rem;
+		}
+	}
+</style>

@@ -1,0 +1,76 @@
+---
+interface Props {
+	videoUrl?: string;
+}
+
+const { videoUrl } = Astro.props;
+---
+
+<section class="hero">
+	{videoUrl && (
+		<video class="hero-video" autoplay muted loop playsinline>
+			<source src={videoUrl} type="video/mp4" />
+		</video>
+	)}
+	<div class="hero-overlay"></div>
+	<div class="hero-content">
+		<h1>Un lugar para todo</h1>
+		<p>Descubre el diseño inteligente que transforma tu cocina</p>
+	</div>
+</section>
+
+<style>
+	.hero {
+		background: var(--color-stone);
+		min-height: 70vh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+		padding: 4rem 1.5rem;
+		position: relative;
+		overflow: hidden;
+	}
+
+	.hero-video {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		min-width: 100%;
+		min-height: 100%;
+		width: auto;
+		height: auto;
+		transform: translate(-50%, -50%);
+		object-fit: cover;
+		z-index: 0;
+	}
+
+	.hero-overlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: rgba(245, 245, 240, 0.7);
+		z-index: 1;
+	}
+
+	.hero-content {
+		max-width: 800px;
+		position: relative;
+		z-index: 2;
+	}
+
+	h1 {
+		font-size: clamp(2.5rem, 5vw, 4rem);
+		font-weight: 500;
+		color: var(--color-dark);
+		margin-bottom: 1.5rem;
+	}
+
+	p {
+		font-size: clamp(1.125rem, 2vw, 1.5rem);
+		color: var(--color-text-light);
+		font-weight: 300;
+	}
+</style>

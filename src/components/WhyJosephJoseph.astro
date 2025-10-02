@@ -1,0 +1,88 @@
+---
+---
+
+<section class="why-section">
+	<div class="container">
+		<h2>¿Por qué Joseph Joseph?</h2>
+		<div class="benefits-grid">
+			<div class="benefit-card animate-on-scroll">
+				<div class="benefit-icon">🏆</div>
+				<h3>Premiado Diseño</h3>
+				<p>Más de 100 premios internacionales de diseño reconocen nuestra innovación y calidad</p>
+			</div>
+			<div class="benefit-card animate-on-scroll">
+				<div class="benefit-icon">💡</div>
+				<h3>Soluciones Inteligentes</h3>
+				<p>Productos que resuelven problemas cotidianos con ingenio y funcionalidad</p>
+			</div>
+			<div class="benefit-card animate-on-scroll">
+				<div class="benefit-icon">♻️</div>
+				<h3>Diseño Sostenible</h3>
+				<p>Durabilidad y calidad que reducen el desperdicio, pensando en el planeta</p>
+			</div>
+			<div class="benefit-card animate-on-scroll">
+				<div class="benefit-icon">🇬🇧</div>
+				<h3>Calidad Británica</h3>
+				<p>Más de 20 años de experiencia en diseño y fabricación de productos de menaje</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	.why-section {
+		padding: 5rem 0;
+		background: white;
+	}
+
+	h2 {
+		font-size: 2rem;
+		font-weight: 500;
+		text-align: center;
+		margin-bottom: 3rem;
+		color: var(--color-dark);
+	}
+
+	.benefits-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+		gap: 2.5rem;
+	}
+
+	.benefit-card {
+		text-align: center;
+		padding: 2rem 1.5rem;
+	}
+
+	.benefit-icon {
+		font-size: 3.5rem;
+		margin-bottom: 1.5rem;
+	}
+
+	.benefit-card h3 {
+		font-size: 1.25rem;
+		font-weight: 600;
+		margin-bottom: 1rem;
+		color: var(--color-dark);
+	}
+
+	.benefit-card p {
+		font-size: 0.9375rem;
+		line-height: 1.6;
+		color: var(--color-text-light);
+	}
+
+	@media (max-width: 768px) {
+		h2 {
+			font-size: 1.75rem;
+		}
+
+		.benefits-grid {
+			gap: 2rem;
+		}
+
+		.benefit-icon {
+			font-size: 3rem;
+		}
+	}
+</style>

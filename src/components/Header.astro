@@ -1,0 +1,95 @@
+---
+---
+
+<header class="header">
+	<div class="container">
+		<a href="/" class="logo">
+			<img src="/logo.svg" alt="Joseph Joseph" />
+		</a>
+		<nav class="nav">
+			<a href="/productos">Productos</a>
+			<a href="/#donde-comprar">Dónde Comprar</a>
+			<a href="/#sobre-nosotros">Sobre Nosotros</a>
+		</nav>
+	</div>
+</header>
+
+<style>
+	.header {
+		background: white;
+		border-bottom: 1px solid var(--color-gray);
+		padding: 1.5rem 0;
+	}
+
+	.header .container {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.logo {
+		display: flex;
+		align-items: center;
+	}
+
+	.logo img {
+		height: 36px;
+		width: auto;
+		display: block;
+	}
+
+	.nav {
+		display: flex;
+		gap: 2rem;
+	}
+
+	.nav a {
+		color: var(--color-text);
+		font-weight: 400;
+		transition: color 0.3s ease;
+	}
+
+	.nav a:hover {
+		color: var(--color-dark);
+	}
+
+	@media (max-width: 768px) {
+		.header {
+			padding: 1rem 0;
+		}
+
+		.logo img {
+			height: 28px;
+		}
+
+		.nav {
+			gap: 0.5rem;
+			font-size: 0.8125rem;
+		}
+
+		.nav a {
+			white-space: nowrap;
+			padding: 0.5rem 0.75rem;
+			background: var(--color-stone);
+			border-radius: 6px;
+			transition: all 0.2s ease;
+		}
+
+		.nav a:hover {
+			background: var(--color-gray);
+			color: var(--color-dark);
+		}
+	}
+
+	@media (max-width: 480px) {
+		.nav {
+			gap: 0.375rem;
+			font-size: 0.75rem;
+		}
+
+		.nav a {
+			padding: 0.375rem 0.625rem;
+			border-radius: 4px;
+		}
+	}
+</style>

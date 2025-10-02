@@ -1,0 +1,97 @@
+---
+interface BreadcrumbItem {
+	label: string;
+	href?: string;
+}
+
+interface Props {
+	items: BreadcrumbItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+	<ol>
+		<li>
+			<a href="/">Inicio</a>
+			<svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+				<path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+			</svg>
+		</li>
+		{items.map((item, index) => (
+			<li>
+				{item.href ? (
+					<>
+						<a href={item.href}>{item.label}</a>
+						{index < items.length - 1 && (
+							<svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+								<path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+							</svg>
+						)}
+					</>
+				) : (
+					<span aria-current="page">{item.label}</span>
+				)}
+			</li>
+		))}
+	</ol>
+</nav>
+
+<style>
+	.breadcrumbs {
+		padding: 1.5rem 0 1rem;
+	}
+
+	ol {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	li {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		font-size: 0.875rem;
+	}
+
+	a {
+		color: var(--color-text-light);
+		transition: color 0.3s ease;
+		text-decoration: none;
+	}
+
+	a:hover {
+		color: var(--color-dark);
+	}
+
+	span {
+		color: var(--color-dark);
+		font-weight: 500;
+	}
+
+	svg {
+		color: var(--color-text-light);
+		flex-shrink: 0;
+	}
+
+	@media (max-width: 768px) {
+		.breadcrumbs {
+			padding: 1rem 0 0.75rem;
+		}
+
+		li {
+			font-size: 0.8125rem;
+		}
+
+		svg {
+			width: 14px;
+			height: 14px;
+		}
+	}
+</style>

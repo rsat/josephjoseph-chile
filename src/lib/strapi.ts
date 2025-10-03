@@ -29,6 +29,15 @@ interface StrapiProduct {
 		};
 	};
 	imageUrl?: string;
+	gallery?: {
+		data?: Array<{
+			attributes: {
+				url: string;
+				alternativeText?: string;
+			};
+		}>;
+	};
+	galleryUrls?: string[];
 	gradient: string;
 	features?: string[];
 	isNew?: boolean;
@@ -43,6 +52,7 @@ export interface Product {
 	description: string;
 	category: string;
 	image?: string;
+	gallery?: string[];
 	gradient: string;
 	features?: string[];
 	isNew?: boolean;
@@ -82,12 +92,21 @@ function transformProduct(strapiProduct: StrapiProduct): Product {
 		imageUrl = strapiProduct.imageUrl;
 	}
 
+	// Process gallery images
+	let gallery: string[] = [];
+	if (strapiProduct.gallery?.data && strapiProduct.gallery.data.length > 0) {
+		gallery = strapiProduct.gallery.data.map(img => `${STRAPI_URL}${img.attributes.url}`);
+	} else if (strapiProduct.galleryUrls && strapiProduct.galleryUrls.length > 0) {
+		gallery = strapiProduct.galleryUrls;
+	}
+
 	return {
 		id: strapiProduct.documentId || strapiProduct.id.toString(),
 		name: strapiProduct.name,
 		description: strapiProduct.description,
 		category: strapiProduct.category,
 		image: imageUrl,
+		gallery: gallery.length > 0 ? gallery : undefined,
 		gradient: strapiProduct.gradient,
 		features: strapiProduct.features || [],
 		isNew: strapiProduct.isNew || false,

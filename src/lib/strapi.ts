@@ -16,26 +16,24 @@ interface StrapiResponse<T> {
 interface StrapiProduct {
 	id: number;
 	documentId: string;
-	attributes: {
-		name: string;
-		description: string;
-		category: string;
-		slug: string;
-		image?: {
-			data?: {
-				attributes: {
-					url: string;
-					alternativeText?: string;
-				};
+	name: string;
+	description: string;
+	category: string;
+	slug?: string;
+	image?: {
+		data?: {
+			attributes: {
+				url: string;
+				alternativeText?: string;
 			};
 		};
-		gradient: string;
-		features?: string[];
-		isNew?: boolean;
-		createdAt: string;
-		updatedAt: string;
-		publishedAt: string;
 	};
+	gradient: string;
+	features?: string[];
+	isNew?: boolean;
+	createdAt: string;
+	updatedAt: string;
+	publishedAt: string;
 }
 
 export interface Product {
@@ -75,19 +73,17 @@ async function fetchAPI(path: string) {
 }
 
 function transformProduct(strapiProduct: StrapiProduct): Product {
-	const { id, documentId, attributes } = strapiProduct;
-
 	return {
-		id: documentId || id.toString(),
-		name: attributes.name,
-		description: attributes.description,
-		category: attributes.category,
-		image: attributes.image?.data?.attributes?.url
-			? `${STRAPI_URL}${attributes.image.data.attributes.url}`
+		id: strapiProduct.documentId || strapiProduct.id.toString(),
+		name: strapiProduct.name,
+		description: strapiProduct.description,
+		category: strapiProduct.category,
+		image: strapiProduct.image?.data?.attributes?.url
+			? `${STRAPI_URL}${strapiProduct.image.data.attributes.url}`
 			: undefined,
-		gradient: attributes.gradient,
-		features: attributes.features || [],
-		isNew: attributes.isNew || false,
+		gradient: strapiProduct.gradient,
+		features: strapiProduct.features || [],
+		isNew: strapiProduct.isNew || false,
 	};
 }
 

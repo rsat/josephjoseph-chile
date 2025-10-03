@@ -8,7 +8,13 @@ interface Props {
 const { product } = Astro.props;
 ---
 
-<a href={`/productos/${product.id}`} class="product-card animate-on-scroll">
+<a
+	href={`/productos/${product.id}`}
+	class="product-card animate-on-scroll"
+	data-category={product.category}
+	data-is-new={product.isNew ? 'true' : 'false'}
+	data-product-name={product.name}
+>
 	<div class="product-image">
 		{product.image ? (
 			<img src={product.image} alt={product.name} />

@@ -1,7 +1,7 @@
 ---
-import { products } from '../data/products';
+import { getCategories } from '../lib/strapi';
 
-const categories = [...new Set(products.map(p => p.category))];
+const categories = await getCategories();
 ---
 
 <aside class="filters">
@@ -61,22 +61,21 @@ const categories = [...new Set(products.map(p => p.category))];
 
 		productCards.forEach((card) => {
 			const cardElement = card as HTMLElement;
-			const productName = card.querySelector('h3')?.textContent || '';
-			const productDesc = card.querySelector('p')?.textContent || '';
 
-			// Determinar categoría del producto
-			let productCategory = '';
-			selectedCategories.forEach(cat => {
-				if (productDesc.toLowerCase().includes(cat.toLowerCase()) ||
-				    window.location.pathname.includes(cat.toLowerCase().replace(/\s+/g, '-'))) {
-					productCategory = cat;
-				}
-			});
+			// Get product data from data attributes
+			const productCategory = cardElement.getAttribute('data-category') || '';
+			const isNew = cardElement.getAttribute('data-is-new') === 'true';
 
 			// Aplicar filtros
 			let show = true;
 
+			// Filter by category
 			if (selectedCategories.length > 0 && !selectedCategories.includes(productCategory)) {
+				show = false;
+			}
+
+			// Filter by new status
+			if (showNew && !isNew) {
 				show = false;
 			}
 

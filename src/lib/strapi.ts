@@ -28,6 +28,7 @@ interface StrapiProduct {
 			};
 		};
 	};
+	imageUrl?: string;
 	gradient: string;
 	features?: string[];
 	isNew?: boolean;
@@ -73,14 +74,20 @@ async function fetchAPI(path: string) {
 }
 
 function transformProduct(strapiProduct: StrapiProduct): Product {
+	// Use uploaded image if available, otherwise use external imageUrl
+	let imageUrl: string | undefined = undefined;
+	if (strapiProduct.image?.data?.attributes?.url) {
+		imageUrl = `${STRAPI_URL}${strapiProduct.image.data.attributes.url}`;
+	} else if (strapiProduct.imageUrl) {
+		imageUrl = strapiProduct.imageUrl;
+	}
+
 	return {
 		id: strapiProduct.documentId || strapiProduct.id.toString(),
 		name: strapiProduct.name,
 		description: strapiProduct.description,
 		category: strapiProduct.category,
-		image: strapiProduct.image?.data?.attributes?.url
-			? `${STRAPI_URL}${strapiProduct.image.data.attributes.url}`
-			: undefined,
+		image: imageUrl,
 		gradient: strapiProduct.gradient,
 		features: strapiProduct.features || [],
 		isNew: strapiProduct.isNew || false,

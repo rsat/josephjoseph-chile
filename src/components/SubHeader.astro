@@ -52,10 +52,32 @@ const currentPath = Astro.url.pathname;
 		}
 	}
 
+	function scrollToActiveItem() {
+		if (!nav) return;
+
+		const activeLink = nav.querySelector('.category-link.active');
+		if (activeLink) {
+			const navRect = nav.getBoundingClientRect();
+			const activeRect = activeLink.getBoundingClientRect();
+
+			// Calculate if the active item is out of view
+			const isOutOfView = activeRect.left < navRect.left || activeRect.right > navRect.right;
+
+			if (isOutOfView) {
+				// Scroll to center the active item
+				const scrollLeft = activeLink.offsetLeft - (nav.clientWidth / 2) + (activeLink.clientWidth / 2);
+				nav.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+			}
+		}
+	}
+
 	if (nav) {
 		nav.addEventListener('scroll', updateScrollIndicator);
 		window.addEventListener('resize', updateScrollIndicator);
 		updateScrollIndicator();
+
+		// Scroll to active item on load
+		setTimeout(scrollToActiveItem, 100);
 	}
 </script>
 

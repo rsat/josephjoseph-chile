@@ -11,6 +11,7 @@
 			<span></span>
 			<span></span>
 		</button>
+		<div class="menu-overlay"></div>
 		<nav class="nav">
 			<a href="/productos">Productos</a>
 			<a href="/#donde-comprar">Dónde Comprar</a>
@@ -23,9 +24,24 @@
 	document.addEventListener('DOMContentLoaded', () => {
 		const menuToggle = document.querySelector('.menu-toggle');
 		const nav = document.querySelector('.nav');
+		const overlay = document.querySelector('.menu-overlay');
 		const body = document.body;
 
-		if (!menuToggle || !nav) return;
+		if (!menuToggle || !nav || !overlay) return;
+
+		function closeMenu() {
+			menuToggle.classList.remove('active');
+			nav.classList.remove('active');
+			overlay.classList.remove('active');
+			body.classList.remove('menu-open');
+		}
+
+		function openMenu() {
+			menuToggle.classList.add('active');
+			nav.classList.add('active');
+			overlay.classList.add('active');
+			body.classList.add('menu-open');
+		}
 
 		// Toggle menu
 		menuToggle.addEventListener('click', (e) => {
@@ -33,38 +49,24 @@
 			e.stopPropagation();
 
 			const isOpen = nav.classList.contains('active');
-
 			if (isOpen) {
-				menuToggle.classList.remove('active');
-				nav.classList.remove('active');
-				body.classList.remove('menu-open');
+				closeMenu();
 			} else {
-				menuToggle.classList.add('active');
-				nav.classList.add('active');
-				body.classList.add('menu-open');
+				openMenu();
 			}
+		});
+
+		// Close menu when clicking on overlay
+		overlay.addEventListener('click', () => {
+			closeMenu();
 		});
 
 		// Close menu when clicking on a link
 		const navLinks = nav.querySelectorAll('a');
 		navLinks.forEach(link => {
-			link.addEventListener('click', (e) => {
-				menuToggle.classList.remove('active');
-				nav.classList.remove('active');
-				body.classList.remove('menu-open');
+			link.addEventListener('click', () => {
+				closeMenu();
 			});
-		});
-
-		// Close menu when clicking outside
-		document.addEventListener('click', (e) => {
-			const isMenuOpen = nav.classList.contains('active');
-			const clickedInside = nav.contains(e.target) || menuToggle.contains(e.target);
-
-			if (isMenuOpen && !clickedInside) {
-				menuToggle.classList.remove('active');
-				nav.classList.remove('active');
-				body.classList.remove('menu-open');
-			}
 		});
 	});
 </script>
@@ -108,15 +110,38 @@
 		color: var(--color-dark);
 	}
 
+	.menu-overlay {
+		display: none;
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, 0.5);
+		z-index: 1001;
+		opacity: 0;
+		transition: opacity 0.3s ease;
+		pointer-events: none;
+	}
+
+	.menu-overlay.active {
+		opacity: 1;
+		pointer-events: auto;
+	}
+
 	.menu-toggle {
 		display: none;
 		flex-direction: column;
-		gap: 5px;
+		justify-content: center;
+		align-items: center;
+		gap: 0;
 		background: none;
 		border: none;
 		cursor: pointer;
 		padding: 8px;
-		z-index: 1003;
+		width: 40px;
+		height: 40px;
+		z-index: 1004;
 		position: relative;
 	}
 
@@ -127,10 +152,24 @@
 		background: var(--color-dark);
 		transition: all 0.3s ease;
 		border-radius: 2px;
+		position: absolute;
+	}
+
+	.menu-toggle span:nth-child(1) {
+		top: 12px;
+	}
+
+	.menu-toggle span:nth-child(2) {
+		top: 19px;
+	}
+
+	.menu-toggle span:nth-child(3) {
+		top: 26px;
 	}
 
 	.menu-toggle.active span:nth-child(1) {
-		transform: rotate(45deg) translate(7px, 7px);
+		top: 19px;
+		transform: rotate(45deg);
 	}
 
 	.menu-toggle.active span:nth-child(2) {
@@ -138,7 +177,8 @@
 	}
 
 	.menu-toggle.active span:nth-child(3) {
-		transform: rotate(-45deg) translate(7px, -7px);
+		top: 19px;
+		transform: rotate(-45deg);
 	}
 
 	@media (max-width: 768px) {
@@ -148,6 +188,10 @@
 
 		.logo img {
 			height: 28px;
+		}
+
+		.menu-overlay {
+			display: block;
 		}
 
 		.menu-toggle {
@@ -166,7 +210,7 @@
 			padding: 5rem 2rem 2rem;
 			box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
 			transition: right 0.3s ease;
-			z-index: 1002;
+			z-index: 1003;
 			align-items: stretch;
 		}
 
@@ -212,16 +256,5 @@
 
 	:global(body.menu-open) {
 		overflow: hidden;
-	}
-
-	:global(body.menu-open::before) {
-		content: '';
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		background: rgba(0, 0, 0, 0.5);
-		z-index: 500;
 	}
 </style>

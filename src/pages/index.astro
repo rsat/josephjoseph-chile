@@ -6,8 +6,10 @@ import Footer from '../components/Footer.astro';
 import ProductCard from '../components/ProductCard.astro';
 import WhyJosephJoseph from '../components/WhyJosephJoseph.astro';
 import Newsletter from '../components/Newsletter.astro';
-import { products } from '../data/products';
+import { getProducts, getCategories } from '../lib/strapi';
 import { retailers } from '../data/retailers';
+
+const products = await getProducts();
 
 const categories = [...new Set(products.map(p => p.category))].map(cat => ({
 	name: cat,

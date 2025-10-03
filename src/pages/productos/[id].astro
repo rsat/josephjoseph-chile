@@ -4,9 +4,10 @@ import StickyNav from '../../components/StickyNav.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import Footer from '../../components/Footer.astro';
 import ProductCard from '../../components/ProductCard.astro';
-import { products } from '../../data/products';
+import { getProducts, getProductById } from '../../lib/strapi';
 
-export function getStaticPaths() {
+export async function getStaticPaths() {
+	const products = await getProducts();
 	return products.map(product => ({
 		params: { id: product.id },
 		props: { product },
@@ -14,7 +15,8 @@ export function getStaticPaths() {
 }
 
 const { product } = Astro.props;
-const relatedProducts = products
+const allProducts = await getProducts();
+const relatedProducts = allProducts
 	.filter(p => p.category === product.category && p.id !== product.id)
 	.slice(0, 3);
 

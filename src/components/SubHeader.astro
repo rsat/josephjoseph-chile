@@ -1,6 +1,7 @@
 ---
-import { products } from '../data/products';
+import { getProducts } from '../lib/strapi';
 
+const products = await getProducts();
 const categories = [...new Set(products.map(p => p.category))].map(cat => ({
 	name: cat,
 	slug: cat.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '-'),

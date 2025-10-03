@@ -6,7 +6,9 @@ import Footer from '../../components/Footer.astro';
 import ProductCard from '../../components/ProductCard.astro';
 import ProductSearch from '../../components/ProductSearch.astro';
 import ProductFilters from '../../components/ProductFilters.astro';
-import { products } from '../../data/products';
+import { getProducts } from '../../lib/strapi';
+
+const products = await getProducts();
 ---
 
 <Layout title="Todos los Productos - Joseph Joseph Chile">

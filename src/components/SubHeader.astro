@@ -7,7 +7,7 @@ const categories = [...new Set(products.map(p => p.category))].map(cat => ({
 	slug: cat.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '-'),
 }));
 
-const currentPath = Astro.url.pathname;
+const currentPath = Astro.url.pathname.replace(/\/$/, '');
 ---
 
 <nav class="subheader">

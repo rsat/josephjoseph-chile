@@ -1,6 +1,6 @@
 import { products } from '../src/data/products';
 
-const STRAPI_URL = 'http://localhost:1337';
+const STRAPI_URL = process.env.STRAPI_URL || 'http://localhost:1337';
 const STRAPI_API_TOKEN = process.env.STRAPI_API_TOKEN || 'ce33600cb06669d88e53b62ac44da96445b2a1f2df84473bb4e3a1ee1c38b00193b0b06ef10cded206de55d95be2039464f2256b6ba94a41f3a7fa6dbd5e8233adad417cfdba737e8f37ef02b0537d69fc0f87f815dd88240ce508d156ba846ff328932c6d90ef3783cd00a96e6c43dce437d41fe5fc8d76c92429bf9bf6cc98';
 
 async function migrateProducts() {

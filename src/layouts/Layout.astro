@@ -1,4 +1,6 @@
 ---
+import { ViewTransitions } from 'astro:transitions';
+
 interface Props {
 	title: string;
 	description?: string;
@@ -19,6 +21,7 @@ const { title, description = "Joseph Joseph Chile - Diseño inteligente para tu 
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 		<title>{title}</title>
+		<ViewTransitions />
 	</head>
 	<body>
 		<slot />

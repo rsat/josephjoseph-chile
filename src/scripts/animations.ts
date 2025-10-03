@@ -19,11 +19,7 @@ export function initScrollAnimations() {
 	elements.forEach((el) => observer.observe(el));
 }
 
-// Initialize on page load
+// Initialize on page load and after each view transition
 if (typeof window !== 'undefined') {
-	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', initScrollAnimations);
-	} else {
-		initScrollAnimations();
-	}
+	document.addEventListener('astro:page-load', initScrollAnimations);
 }

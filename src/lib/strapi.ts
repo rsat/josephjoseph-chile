@@ -99,9 +99,10 @@ export async function getProducts(): Promise<Product[]> {
 
 		return response.data.map(transformProduct);
 	} catch (error) {
-		console.error('Failed to fetch products from Strapi:', error);
-		// Fallback to empty array or static data
-		return [];
+		console.error('Failed to fetch products from Strapi, using fallback data:', error);
+		// Fallback to static data when Strapi is not available
+		const { products: fallbackProducts } = await import('../data/products');
+		return fallbackProducts;
 	}
 }
 
@@ -117,8 +118,9 @@ export async function getProductById(id: string): Promise<Product | null> {
 
 		return transformProduct(response.data[0]);
 	} catch (error) {
-		console.error(`Failed to fetch product ${id} from Strapi:`, error);
-		return null;
+		console.error(`Failed to fetch product ${id} from Strapi, using fallback:`, error);
+		const { products: fallbackProducts } = await import('../data/products');
+		return fallbackProducts.find(p => p.id === id) || null;
 	}
 }
 
@@ -130,8 +132,9 @@ export async function getProductsByCategory(category: string): Promise<Product[]
 
 		return response.data.map(transformProduct);
 	} catch (error) {
-		console.error(`Failed to fetch products for category ${category}:`, error);
-		return [];
+		console.error(`Failed to fetch products for category ${category}, using fallback:`, error);
+		const { products: fallbackProducts } = await import('../data/products');
+		return fallbackProducts.filter(p => p.category === category);
 	}
 }
 
@@ -143,8 +146,9 @@ export async function getNewProducts(): Promise<Product[]> {
 
 		return response.data.map(transformProduct);
 	} catch (error) {
-		console.error('Failed to fetch new products from Strapi:', error);
-		return [];
+		console.error('Failed to fetch new products from Strapi, using fallback:', error);
+		const { products: fallbackProducts } = await import('../data/products');
+		return fallbackProducts.filter(p => p.isNew);
 	}
 }
 
@@ -154,7 +158,9 @@ export async function getCategories(): Promise<string[]> {
 		const categories = [...new Set(products.map(p => p.category))];
 		return categories.sort();
 	} catch (error) {
-		console.error('Failed to get categories:', error);
-		return [];
+		console.error('Failed to get categories, using fallback:', error);
+		const { products: fallbackProducts } = await import('../data/products');
+		const categories = [...new Set(fallbackProducts.map(p => p.category))];
+		return categories.sort();
 	}
 }
